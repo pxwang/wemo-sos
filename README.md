@@ -44,5 +44,5 @@ uses instead.
 
 ## License
 
-Personal project, shared as-is in case it helps someone else in the same
-"my smart switches went dark" situation. No warranty.
+MIT — see [LICENSE](LICENSE). Personal project, shared as-is in case it
+helps someone else in the same "my smart switches went dark" situation.

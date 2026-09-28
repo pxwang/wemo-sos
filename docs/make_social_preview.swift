@@ -88,7 +88,7 @@ func draw(_ text: String, x: CGFloat, y: CGFloat, font: NSFont, color: NSColor, 
 }
 
 let eyebrowFont = NSFont.monospacedSystemFont(ofSize: 20, weight: .bold)
-draw("AFTER THE CLOUD SHUT DOWN", x: 110, y: 390, font: eyebrowFont, color: gold, tracking: 2.5)
+draw("LET LLM CODE", x: 110, y: 390, font: eyebrowFont, color: gold, tracking: 2.5)
 
 let titleFont = NSFont.monospacedSystemFont(ofSize: 68, weight: .bold)
 draw("Control it", x: 108, y: 300, font: titleFont, color: cream)

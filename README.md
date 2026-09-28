@@ -74,6 +74,15 @@ location, and adjust the device name/schedule times, before
 
 ---
 
+## Related projects
+
+- [**dibby-wemo-manager**](https://github.com/K0rb3nD4ll4S/dibby-wemo-manager)
+  — a much larger open-source Wemo toolkit: Electron desktop app, Homebridge
+  plugin, Home Assistant integration, an embedded HomeKit bridge, and its
+  own always-on scheduling engine. If you want a fuller-featured GUI-driven
+  solution instead of these minimal Mac/iOS apps and CLI scripts, that's
+  the one to check out.
+
 ## License
 
 MIT — see [LICENSE](LICENSE). Personal project, shared as-is in case it

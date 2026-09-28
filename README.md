@@ -1,5 +1,7 @@
 # wemo-sos
 
+<img src="docs/social-preview.png" alt="wemo-sos — Control it yourself. Local UPnP control for Wemo smart switches, macOS + iOS, no cloud account needed.">
+
 Belkin shut down the Wemo cloud service, stranding previously
 cloud-controlled Wemo smart switches. Wemo devices never actually needed the
 cloud for local control though — they speak plain UPnP on your home network.

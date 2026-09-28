@@ -4,6 +4,12 @@ SwiftUI iPhone app for discovering and controlling Belkin Wemo smart
 switches over your home Wi-Fi. No Wemo cloud account needed. Companion to
 the macOS menu bar app in `../WemoControl`.
 
+## Screenshots
+
+See the [root README](../README.md#readme) for a screenshot of this app
+next to the Mac menu bar app, or view it directly:
+[`../docs/ios_screenshot.png`](../docs/ios_screenshot.png).
+
 ## Why discovery works differently here than on the Mac
 
 The Mac app finds devices via SSDP (UDP multicast). On a **real iPhone**,

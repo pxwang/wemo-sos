@@ -7,7 +7,12 @@ This repo is a rescue kit: a Mac menu bar app, an iOS app, and some CLI/
 scheduling tooling, all talking to Wemo switches directly over LAN with no
 cloud account involved.
 
-<img src="docs/ios_screenshot.png" alt="WemoControl iOS app showing two discovered Wemo switches" width="320">
+<table>
+<tr>
+<td><img src="docs/mac_screenshot.png" alt="WemoControl Mac menu bar dropdown showing two discovered Wemo switches"><br><sub>macOS menu bar app</sub></td>
+<td><img src="docs/ios_screenshot.png" alt="WemoControl iOS app showing two discovered Wemo switches" width="280"><br><sub>iOS app</sub></td>
+</tr>
+</table>
 
 ## What's here
 

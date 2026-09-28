@@ -5,51 +5,64 @@
 Belkin shut down the Wemo cloud service, stranding previously
 cloud-controlled Wemo smart switches. Wemo devices never actually needed the
 cloud for local control though — they speak plain UPnP on your home network.
-This repo is a rescue kit: a Mac menu bar app, an iOS app, and some CLI/
-scheduling tooling, all talking to Wemo switches directly over LAN with no
-cloud account involved.
+This repo is a rescue kit: pick whichever app matches your device below —
+they're independent, so you only need the one you actually want.
 
-<table>
-<tr>
-<td><img src="docs/mac_screenshot.png" alt="WemoControl Mac menu bar dropdown showing two discovered Wemo switches"><br><sub>macOS menu bar app</sub></td>
-<td><img src="docs/ios_screenshot.png" alt="WemoControl iOS app showing two discovered Wemo switches" width="280"><br><sub>iOS app</sub></td>
-</tr>
-</table>
+- **[🖥 macOS app](#-macos-app)** — a menu bar utility for your Mac
+- **[📱 iOS app](#-ios-app)** — an iPhone app
+- **[⏰ Scheduling](#-scheduling-cli--launchd)** — CLI + `launchd` jobs to replace the schedules the Wemo app used to set
 
-## What's here
+Both apps talk to your switches the same way — **UPnP**: SSDP for
+discovery, SOAP-over-HTTP (`GetBinaryState` / `SetBinaryState`) for control
+— directly between your device and the switch, nothing else involved.
 
-| Path | What it is |
-|---|---|
-| `WemoControl/` | macOS menu bar app (Swift Package). Discovers switches via SSDP, toggles them from a 🔌 menu bar icon. |
-| `WemoControlIOS/` | iOS app (SwiftUI). Same idea, for iPhone — see its README for a platform quirk that changes how discovery works there. |
-| `scripts/wemo_ctl.py` | Standalone CLI (stdlib-only Python) to turn a named device on/off. Used for scheduling. |
-| `launchd/` | Example `launchd` job pairs that turn a switch on/off on a schedule, replacing what the (defunct) Wemo app used to do. |
+---
 
-## How discovery/control works
+## 🖥 macOS app
 
-Wemo switches use **UPnP**:
+<img src="docs/mac_screenshot.png" alt="WemoControl Mac menu bar dropdown showing two discovered Wemo switches" width="280">
 
-- **Discovery**: SSDP `M-SEARCH` multicast query (`239.255.255.250:1900`),
-  collecting the `LOCATION` URLs devices reply with.
-- **Control**: SOAP actions (`GetBinaryState` / `SetBinaryState`) posted over
-  plain HTTP to each device's `basicevent` endpoint.
+A menu bar app (🔌 icon, no Dock icon) — click a switch to toggle it,
+"Discover Devices" to re-scan. Discovers switches via SSDP multicast, which
+works without restriction on macOS.
 
-The iOS app can't use SSDP multicast on real hardware — see
-`WemoControlIOS/README.md` for why, and the unicast-subnet-scan workaround it
-uses instead.
+```bash
+cd WemoControl
+swift build -c release
+```
 
-## Setup notes
+Full build/package/install instructions: **[`WemoControl/README.md`](WemoControl/README.md)**.
 
-- The iOS project (`WemoControlIOS/project.yml`) has `DEVELOPMENT_TEAM:
-  YOUR_TEAM_ID` — replace with your own Apple Developer Team ID before
-  building (see the comment next to it for how to find it). The generated
-  `.xcodeproj` is gitignored; regenerate it with
-  [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`
-  then `xcodegen generate`).
-- `launchd/*.plist` files use a placeholder script path
-  (`/path/to/wemo_sos/scripts/wemo_ctl.py`) — edit it to your actual clone
-  location, and adjust the device name/schedule times, before
-  `launchctl load`-ing them.
+## 📱 iOS app
+
+<img src="docs/ios_screenshot.png" alt="WemoControl iOS app showing two discovered Wemo switches" width="280">
+
+A SwiftUI iPhone app with the same idea — device list, tap to toggle,
+auto-refreshes every 30s. Requires full Xcode + a free Apple ID (apps
+signed this way expire after 7 days and need reinstalling — an Apple
+platform restriction, not fixable from the project).
+
+Discovery works differently here than on the Mac: real iPhones block raw
+SSDP multicast without a paid-account-only Apple entitlement, so this app
+unicast-scans your subnet instead. Details, build steps, and command-line
+install instructions: **[`WemoControlIOS/README.md`](WemoControlIOS/README.md)**.
+
+## ⏰ Scheduling (CLI + launchd)
+
+Since Wemo switches can no longer be scheduled through the (defunct) cloud
+app:
+
+- `scripts/wemo_ctl.py` — standalone CLI (Python stdlib only) to turn a
+  named device on/off: `wemo_ctl.py on "Night Light"`
+- `launchd/*.plist` — example job pairs that turn a switch on/off on a
+  schedule, using that script
+
+Setup: `launchd/*.plist` files use a placeholder script path
+(`/path/to/wemo_sos/scripts/wemo_ctl.py`) — edit it to your actual clone
+location, and adjust the device name/schedule times, before
+`launchctl load`-ing them.
+
+---
 
 ## License
 

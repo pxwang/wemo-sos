@@ -49,8 +49,18 @@ install instructions: **[`WemoControlIOS/README.md`](WemoControlIOS/README.md)**
 
 ## ⏰ Scheduling (CLI + launchd)
 
-Since Wemo switches can no longer be scheduled through the (defunct) cloud
-app:
+Wemo's on-device rule engine still exists in firmware — it accepts and
+stores rules over UPnP (`StoreRules`, `UpdateWeeklyCalendar`) — but it no
+longer *fires* them. It was designed around a cloud-pushed wake-up nudge,
+and that nudge is gone along with Belkin's cloud; the device's TLS
+connection to `api.xbcs.net` is certificate-pinned, so the nudge can't be
+faked locally either. (Credit: this was confirmed by inspecting
+[dibby-wemo-manager](https://github.com/K0rb3nD4ll4S/dibby-wemo-manager),
+a much larger open-source Wemo toolkit that hit the same wall and works
+around it the same way below.)
+
+So scheduling now has to come from an external always-on host polling the
+device at the right times, instead of the device's own firmware:
 
 - `scripts/wemo_ctl.py` — standalone CLI (Python stdlib only) to turn a
   named device on/off: `wemo_ctl.py on "Night Light"`
